@@ -14,7 +14,12 @@ const shopSlice = createSlice({
       state.products = action.payload;
     },
     addToCart_: (state, action) => {
-      state.cart.push(action.payload);
+      const newCart = state.cart.concat([action.payload]);
+      return {
+        ...state,
+        cart: newCart,
+        cartOpen: true,
+      };
     },
     addMultipleToCart: (state, action) => {
       state.cart.push(...action.payload);
