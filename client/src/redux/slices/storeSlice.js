@@ -25,12 +25,19 @@ const shopSlice = createSlice({
       state.cart.push(...action.payload);
     },
     updateCartQuantity: (state, action) => {
-      //state.cart.cartOpen = true;
-      state.cart
+      const tmpCart = state.cart.map((product) => {
+        return { ...product };
+      });
+      tmpCart
         .filter((product) => product._id === action.payload._id)
         .map((product) => {
           product.purchaseQuantity = action.payload.purchaseQuantity;
         });
+      return {
+        ...state,
+        cart: tmpCart,
+        cartOpen: true,
+      };
     },
     removeFromCart_: (state, action) => {
       const newCart = state.cart.filter(
