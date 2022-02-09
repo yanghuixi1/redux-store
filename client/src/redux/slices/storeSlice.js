@@ -1,43 +1,47 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const initialState = {
-  products: [],
-  cart: [],
-  cartOpen: false,
-  categories: [],
-  currentCategory: "",
-};
-
 const shopSlice = createSlice({
   name: "shop",
-  initialState,
+  initialState: {
+    products: [],
+    cart: [],
+    cartOpen: false,
+    categories: [],
+    currentCategory: "",
+  },
   reducers: {
     updateProducts: (state, action) => {
       state.products.push(...action.payload);
     },
-    addToCart: (state, action) => {
+    addToCart_: (state, action) => {
       state.cart.push(action.payload);
     },
     addMultipleToCart: (state, action) => {
       state.cart.push(...action.payload);
     },
     updateCartQuantity: (state, action) => {
-      state.cart.cartOpen = true;
+      //state.cart.cartOpen = true;
       state.cart
         .filter((product) => product._id === action.payload._id)
         .map((product) => {
           product.purchaseQuantity = action.payload.purchaseQuantity;
         });
     },
-    removeFromCart: (state, action) => {
+    removeFromCart_: (state, action) => {
       const newCart = state.cart.filter(
         (product) => product._id != action.payload
       );
-      state.cart = newCart;
-      state.cartOpen = newState.length > 0;
+      return {
+        ...state,
+        cart: newCart,
+        cartOpen: newCart.length > 0,
+      };
     },
-    toggleCart: (state) => {
-      state.cart.cartOpen = !state.cart.cartOpen;
+    toggleCart_: (state) => {
+      return {
+        ...state,
+        cartOpen: !state.cartOpen,
+      };
     },
     updateCategories: (state, action) => {
       state.categories.push(...action.payload);
@@ -46,19 +50,22 @@ const shopSlice = createSlice({
       state.currentCategory = action.payload;
     },
     clearCart: (state) => {
-      state.cartOpen = false;
-      state.cart = [];
+      return {
+        ...state,
+        cartOpen: !state.cartOpen,
+        cart: [],
+      };
     },
   },
 });
 
 export const {
   updateProducts,
-  addToCart,
+  addToCart_,
   addMultipleToCart,
   updateCartQuantity,
-  removeFromCart,
-  toggleCart,
+  removeFromCart_,
+  toggleCart_,
   updateCategories,
   updateCurrentCategory,
   clearCart,

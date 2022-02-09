@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { pluralize } from "../../utils/helpers";
-import { addToCart, updateCartQuantity } from "../../utils/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { updateCartQuantity, addToCart_ } from "../../redux/slices/storeSlice";
 import { idbPromise } from "../../utils/helpers";
 
 function ProductItem(item) {
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state.shop);
   const { image, name, _id, price, quantity } = item;
 
   const addToCart = () => {
@@ -24,7 +24,7 @@ function ProductItem(item) {
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
       });
     } else {
-      dispatch(addToCart({ ...item, purchaseQuantity: 1 }));
+      dispatch(addToCart_({ ...item, purchaseQuantity: 1 }));
       idbPromise("cart", "put", { ...item, purchaseQuantity: 1 });
     }
   };
