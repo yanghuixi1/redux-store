@@ -16,12 +16,15 @@ const CartItem = ({ item }) => {
 
   const onChange = (e) => {
     const value = e.target.value;
-    if (value === "0") {
-      dispatch(removeFromCart(item._id));
+    if (value === "0" || value === "") {
+      dispatch(removeFromCart_(item._id));
       idbPromise("cart", "delete", { ...item });
     } else {
       dispatch(
-        updateCartQuantity({ _id: item._id, purchaseQuantity: parseInt(value) })
+        updateCartQuantity({
+          _id: item._id,
+          purchaseQuantity: parseInt(value) || "",
+        })
       );
       idbPromise("cart", "put", { ...item, purchaseQuantity: parseInt(value) });
     }
