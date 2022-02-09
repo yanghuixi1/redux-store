@@ -11,7 +11,7 @@ const shopSlice = createSlice({
   },
   reducers: {
     updateProducts: (state, action) => {
-      state.products.push(...action.payload);
+      state.products = action.payload;
     },
     addToCart_: (state, action) => {
       state.cart.push(action.payload);
