@@ -2,7 +2,7 @@
 
 ## Description
 
-An application uses Redux to manage global state.
+An e-commerce application uses redux-toolkit to manage global state
 
 ## Table of Contents
 
